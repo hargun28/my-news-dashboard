@@ -2,7 +2,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import { useDebounce } from "@/hooks/use-debounce";
-import ReporterCard from "../../app/dashboard/reporters/ReporterCard";
+import ReporterCard from "@/components/reporters/ReporterCard";
 
 export default function ReporterSearchBar() {
   const [query, setQuery] = useState("");
@@ -13,7 +13,7 @@ export default function ReporterSearchBar() {
   useEffect(() => {
     if (!debounced) { setResults([]); return; }
     setLoading(true);
-    fetch(`/api/reporters/search?query=${encodeURIComponent(debounced)}`)
+    fetch(`/api/reporters/search?q=${encodeURIComponent(debounced)}`)
       .then(r => r.json())
       .then(setResults)
       .finally(() => setLoading(false));
