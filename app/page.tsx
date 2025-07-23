@@ -1,21 +1,18 @@
 "use client";
 
-import { 
-  SignedIn, 
-  SignedOut, 
-  RedirectToSignIn 
-} from "@clerk/nextjs";
-import HomeSreen from "../mainPage/Dashboard/HomeScreen"; // or HomeScreen
+import { SignedIn, SignedOut, RedirectToSignIn } from "@clerk/nextjs";
+import HomePage from "./dashboard/page"; // or wherever you placed it
+import DashboardShell from "./DashboardShell";
 
 export default function RootPage() {
   return (
     <>
-      {/* If user is signed in, show the dashboard */}
       <SignedIn>
-        <HomeSreen />
+        <DashboardShell>
+            <HomePage />
+        </DashboardShell>
       </SignedIn>
 
-      {/* If user is signed out, send them to Clerk’s sign in */}
       <SignedOut>
         <RedirectToSignIn />
       </SignedOut>
