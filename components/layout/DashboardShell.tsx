@@ -1,9 +1,8 @@
-// app/(dashboard)/layout.tsx
+// components/layout/DashboardShell.tsx
 import Sidebar from "@/components/dashboard/Sidebar";
-import { Header } from "../../mainPage/Header";
-import "../globals.css"; // keep global styles
+import { Header } from "./Header";
 
-export default function DashboardLayout({ children }: { children: React.ReactNode }) {
+export default function DashboardShell({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex h-screen overflow-hidden bg-gray-50">
       <Sidebar />

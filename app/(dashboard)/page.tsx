@@ -1,6 +1,6 @@
 // app/(dashboard)/page.tsx
-import NewsCategory from "../../mainPage/Dashboard/NewsCategory";
-import UploadNewsForm from "../../mainPage/Dashboard/UploadNewsForm";
+import NewsCategory from "@/components/dashboard/NewsCategoryNav";
+import UploadNewsForm from "@/components/dashboard/UploadNewsForm";
 
 export default function HomePage() {
   return (
