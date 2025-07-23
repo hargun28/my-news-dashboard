@@ -1,0 +1,75 @@
+// prisma/schema.prisma
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql" // change to postgresql/mysql when you deploy
+  url      = env("DATABASE_URL")
+}
+
+model Organization {
+  id         String   @id @default(cuid())
+  name       String   @unique
+  slug       String   @unique
+  createdAt  DateTime @default(now())
+
+  users      User[]
+  articles   NewsArticle[]
+}
+
+model User {
+  id              String   @id @default(cuid())
+  clerkId         String?  @unique
+  username        String?  @unique
+  email           String?  @unique
+  role            Role     @default(READER)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  // Org: required for ADMIN/REPORTER, null for READER (enforce in app logic)
+  organizationId  String?
+  organization    Organization? @relation(fields: [organizationId], references: [id])
+
+  // Relations
+  articles        NewsArticle[]
+
+  // Follows
+  followers       Follow[]  @relation("user_followers") // users who follow ME
+  following       Follow[]  @relation("user_following") // users I follow
+}
+
+model NewsArticle {
+  id             String   @id @default(cuid())
+  title          String
+  description    String
+  views          Int      @default(0)
+  createdAt      DateTime @default(now())
+
+  authorId       String
+  author         User     @relation(fields: [authorId], references: [id])
+
+  organizationId String?  // convenience (same as author's org); fill automatically
+  organization   Organization? @relation(fields: [organizationId], references: [id])
+
+  @@index([organizationId])
+  @@index([authorId])
+}
+
+model Follow {
+  followerId  String
+  followingId String
+  createdAt   DateTime @default(now())
+
+  follower    User @relation("user_following", fields: [followerId],  references: [id])
+  following   User @relation("user_followers", fields: [followingId], references: [id])
+
+  @@id([followerId, followingId]) // unique pair
+  @@index([followingId])
+}
+
+enum Role {
+  ADMIN
+  REPORTER
+  READER
+}
