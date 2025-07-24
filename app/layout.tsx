@@ -18,11 +18,11 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <ClerkProvider>
-      <html lang="en">
+      <html lang="en" className = "text-grey-900">
         <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
           <RouteProvider>
             <ThemeProvider>
-              <header className="flex justify-end items-center p-4 gap-4 h-16 bg-white shadow">
+              <header className="flex justify-end items-center p-4 gap-4 h-16 bg-white shadow ">
                 <SignedOut>
                   <SignInButton />
                   <SignUpButton>

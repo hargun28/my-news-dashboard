@@ -30,7 +30,7 @@ export default async function CategoryPage({ params }: { params: { slug: string 
             )}
             <h3 className="text-lg font-semibold group-hover:underline">{a.title}</h3>
             {a.description && (
-              <p className="mt-1 text-sm text-fg-secondary line-clamp-3">{a.description}</p>
+              <p className="mt-1 text-sm text-fg-secondary line-clamp-3 bg-[#001f3f] text-white">{a.description}</p>
             )}
             <span className="mt-2 block text-xs text-fg-quaternary">
               {new Date(a.publishedAt).toLocaleString()} — {a.source?.name ?? "Unknown"}
