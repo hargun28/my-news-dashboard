@@ -1,4 +1,4 @@
-import UploadNewsForm from "../../mainPage/Dashboard/UploadNewsForm";
+import UploadNewsForm from "@/components/dashboard/UploadNewsForm";
 
 export default function UploadPage() {
   return (

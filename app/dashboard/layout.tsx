@@ -1,6 +1,6 @@
 // app/(dashboard)/layout.tsx
 import Sidebar from "@/components/dashboard/Sidebar";
-import { Header } from "../../mainPage/Header";
+import { Header } from "@/components/layout/Header";
 import "../globals.css"; // keep global styles
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {

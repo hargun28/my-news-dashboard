@@ -1,6 +1,6 @@
 // app/(dashboard)/page.tsx
-import NewsCategory from "../../mainPage/Dashboard/NewsCategory";
-import UploadNewsForm from "../../mainPage/Dashboard/UploadNewsForm";
+import NewsCategory from "@/components/dashboard/NewsCategory";
+import UploadNewsForm from "@/components/dashboard/UploadNewsForm";
 import { useUserRole } from "../../lib/get-user-role";
 
 export default async function HomePage() {

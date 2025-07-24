@@ -1,6 +1,6 @@
 // components/layout/DashboardShell.tsx
 import Sidebar from "@/components/dashboard/Sidebar";
-import { Header } from "../mainPage/Header";
+import { Header } from "@/components/layout/Header";
 
 export default function DashboardShell({ children }: { children: React.ReactNode }) {
   return (
