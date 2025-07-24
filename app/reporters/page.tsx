@@ -1,4 +1,4 @@
-import ReporterCard from ".././ReporterCard";
+import ReporterCard from "./ReporterCard";
 import ReporterSearchBar from "@/components/search/ReporterSearchBar";
 import { listReporters } from "@/lib/reporters";
 import { auth } from "@clerk/nextjs/server";

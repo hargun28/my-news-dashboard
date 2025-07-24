@@ -18,7 +18,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <ClerkProvider>
-      <html lang="en" className = "text-grey-900">
+      <html lang="en">
         <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
           <RouteProvider>
             <ThemeProvider>
