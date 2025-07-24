@@ -1,4 +1,3 @@
-// lib/get-db-user.ts
 import { auth } from "@clerk/nextjs/server";
 import prisma from "@/lib/prisma";
 

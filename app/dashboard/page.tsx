@@ -1,10 +1,9 @@
-// app/(dashboard)/page.tsx
 import NewsCategory from "../../mainPage/Dashboard/NewsCategory";
 import UploadNewsForm from "../../mainPage/Dashboard/UploadNewsForm";
-import { useUserRole } from "../../lib/get-user-role";
+import { getUserRole } from "@/lib/get-user-role";
 
 export default async function HomePage() {
-  const role = await useUserRole();  
+  const role = await getUserRole();  
   return (
     <div className="space-y-6">
       {/* Only show if user is reporter/admin */}
@@ -13,4 +12,4 @@ export default async function HomePage() {
       <NewsCategory />
     </div>
   );
-}
+ }

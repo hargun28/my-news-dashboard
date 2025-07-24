@@ -1,11 +1,12 @@
+'use client';
 import { Avatar } from "@/components/base/avatar/avatar"
 import { Button } from "@/components/base/buttons/button"
 import Link from "next/link"
-import { useUserRole } from "../../lib/get-user-role";
+import { useUserRole } from "../../hooks/use-user-role";
 
 
-export default async function Sidebar() {
-  const role = await useUserRole();
+export default function Sidebar() {
+  const role = useUserRole();
   return (
     <aside className="w-64 h-screen bg-white border-r p-4 flex flex-col gap-6">
       <div className="flex items-center gap-3">
