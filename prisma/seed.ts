@@ -43,7 +43,6 @@ async function main() {
   }
 
   // 2) Users
-  const admin    = await makeUser({ username: "admin",    role: Role.ADMIN,    orgId: orgA.id });
   const reporter1 = await makeUser({ username: "rep_alex", role: Role.REPORTER, orgId: orgA.id });
   const reporter2 = await makeUser({ username: "rep_bob",  role: Role.REPORTER, orgId: orgB.id });
 

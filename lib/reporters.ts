@@ -55,12 +55,47 @@ export async function getReporterById(id: string): Promise<ReporterStats | null>
 /**
  * Articles by a specific reporter (User).
  */
-export async function getArticlesByReporter(reporterId: string): Promise<NewsArticle[]> {
-  if (!reporterId) return [];
-  return prisma.newsArticle.findMany({
-    where: { authorId: reporterId },
-    orderBy: { createdAt: "desc" },
+export async function getArticlesByReporter(
+  reporterId: string,
+  skip = 0,
+  take = 10,
+): Promise<NewsArticle[]> {
+      if (!reporterId) return [];
+      return prisma.newsArticle.findMany({
+        where: { authorId: reporterId },
+        orderBy: { createdAt: "desc" },
+    skip,
+    take,
   });
+}
+
+export async function listReporters(
+  skip = 0,
+  take = 10,
+  currentUserId?: string,
+): Promise<ReporterSearchResult[]> {
+  const reporters = await prisma.user.findMany({
+    where: { role: "REPORTER" },
+    include: {
+      organization: { select: { id: true, name: true } },
+      ...(currentUserId && {
+        followers: {
+          where: { followerId: currentUserId },
+          select: { followerId: true },
+        },
+      }),
+    },
+    skip,
+    take,
+    orderBy: { username: "asc" },
+  });
+  return reporters.map<ReporterSearchResult>((u) => ({
+    id: u.id,
+    name: u.username ?? "Unnamed Reporter",
+    avatarUrl: (u as any).avatarUrl,
+    organization: u.organization,
+    isFollowed: currentUserId ? (u as any).followers?.length > 0 : false,
+  }));
 }
 
 /**

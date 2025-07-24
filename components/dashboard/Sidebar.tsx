@@ -1,22 +1,26 @@
 import { Avatar } from "@/components/base/avatar/avatar"
 import { Button } from "@/components/base/buttons/button"
 import Link from "next/link"
+import { getUserRole } from "../../lib/get-user-role";
 
-export default function Sidebar() {
+
+export default async function Sidebar() {
+  const role = await getUserRole();
   return (
     <aside className="w-64 h-screen bg-white border-r p-4 flex flex-col gap-6">
       <div className="flex items-center gap-3">
-        <Avatar initials="JD" size="lg" />
+        <Avatar initials="U" size="lg" />
         <div>
-            <p className="font-semibold">John Doe</p>
-            <p className="text-sm text-muted-foreground">Journalist</p>
+            <p className="font-semibold">Profile</p>
         </div>
-        </div>
+      </div>
 
       <nav className="flex flex-col gap-2">
         <Link href="/bookmarks"><Button>Bookmarks</Button></Link>
         <Link href="/profile"><Button>My Profile</Button></Link>
-        <Link href="/settings"><Button>Settings</Button></Link>
+         {role === "REPORTER" && (
+          <Link href="/upload"><Button>Upload Article</Button></Link>
+        )}
       </nav>
     </aside>
   )

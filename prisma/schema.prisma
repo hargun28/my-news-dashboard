@@ -69,7 +69,6 @@ model Follow {
 }
 
 enum Role {
-  ADMIN
   REPORTER
   READER
 }

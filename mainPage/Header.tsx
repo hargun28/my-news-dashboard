@@ -3,10 +3,8 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-const tabs = [
-  { href: "/", label: "Home" },
-  { href: "/following", label: "Following" },
-];
+import { NAV_LINKS } from "@/lib/data";
+
 
 export function Header() {
   const pathname = usePathname();
@@ -15,7 +13,7 @@ export function Header() {
       <div className="mx-auto flex h-14 items-center justify-between px-4">
         <Link href="/" className="font-semibold">NewsDash</Link>
         <nav className="flex space-x-6 text-sm">
-          {tabs.map(t => {
+          {NAV_LINKS.map(t => {
             const active = pathname === t.href;
             return (
               <Link

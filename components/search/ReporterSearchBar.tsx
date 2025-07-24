@@ -2,7 +2,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import { useDebounce } from "@/hooks/use-debounce";
-import ReporterCard from "../../app/dashboard/reporters/ReporterCard";
+import ReporterCard from "../../app/reporters/ReporterCard";
 
 export default function ReporterSearchBar() {
   const [query, setQuery] = useState("");
