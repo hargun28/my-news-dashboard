@@ -45,11 +45,14 @@ async function main() {
   // 2) Users
   const reporter1 = await makeUser({ username: "rep_alex", role: Role.REPORTER, orgId: orgA.id });
   const reporter2 = await makeUser({ username: "rep_bob",  role: Role.REPORTER, orgId: orgB.id });
+  const reporter3 = await makeUser({ username: "rep_cara", role: Role.REPORTER, orgId: orgA.id });
+  const reporter4 = await makeUser({ username: "rep_dan", role: Role.REPORTER, orgId: orgA.id });
 
   const reader1  = await makeUser({ username: "reader_jane", role: Role.READER });
   const reader2  = await makeUser({ username: "reader_mike", role: Role.READER });
   const reader3  = await makeUser({ username: "reader_sara", role: Role.READER });
-
+  const reader4 = await makeUser({ username: "reader_emma", role: Role.READER });
+  const reader5 = await makeUser({ username: "reader_nick", role: Role.READER });
   // 3) News Articles (attach org same as author)
   async function makeArticle(authorId: string, orgId: string, i: number) {
     return prisma.newsArticle.create({
@@ -68,6 +71,8 @@ async function main() {
     makeArticle(reporter1.id, orgA.id, 2),
     makeArticle(reporter2.id, orgB.id, 3),
     makeArticle(reporter2.id, orgB.id, 4),
+    makeArticle(reporter3.id, orgA.id, 5),
+    makeArticle(reporter4.id, orgA.id, 6),
   ]);
 
   // 4) Follow relationships
@@ -75,8 +80,12 @@ async function main() {
   await prisma.follow.createMany({
     data: [
       { followerId: reader1.id, followingId: reporter1.id },
+      { followerId: reader1.id, followingId: reporter3.id },
       { followerId: reader2.id, followingId: reporter1.id },
+      { followerId: reader2.id, followingId: reporter4.id },
       { followerId: reader3.id, followingId: reporter2.id },
+      { followerId: reader4.id, followingId: reporter3.id },
+      { followerId: reader5.id, followingId: reporter2.id },
     ],
     skipDuplicates: true,
   });
