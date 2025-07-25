@@ -1,8 +1,8 @@
 // app/reporters/page.tsx
 import FormContainer from "@/components//FormContainer";
-import Pagination from "@//components/Pagination";
-import Table from "@//components/Table";
-import TableSearch from "@//components/TableSearch";
+import Pagination from "@/components/Pagination";
+import Table from "@/components/Table";
+import TableSearch from "@/components/TableSearch";
 import prisma from "@/lib/prisma";
 import { User, Organization, Prisma } from "@prisma/client";
 import Link from "next/link";
@@ -56,12 +56,55 @@ export default async function ReportersPage({
   ]);
 
   // 4) Table column definitions
-  const columns = [
-    { header: "Info", accessor: "info" },
-    { header: "Organization", accessor: "organization", className: "hidden md:table-cell" },
-    { header: "Articles", accessor: "articlesCount", className: "hidden md:table-cell" },
-    { header: "Followers", accessor: "followersCount", className: "hidden lg:table-cell" },
-  ];
+  // const columns = [
+  //   { header: "Info", accessor: "info" },
+  //   { header: "Organization", accessor: "organization", className: "hidden md:table-cell" },
+  //   { header: "Articles", accessor: "articlesCount", className: "hidden md:table-cell" },
+  //   { header: "Followers", accessor: "followersCount", className: "hidden lg:table-cell" },
+  // ];
+  // inside your Reporter list page
+const columns = [
+  {
+    header: "Reporter",
+    render: (item: ReporterListItem) => (
+      <div className="flex items-center gap-4">
+        <Image
+          src={(item as any).avatarUrl || "/noAvatar.png"}
+          alt=""
+          width={40}
+          height={40}
+          className="w-10 h-10 rounded-full object-cover"
+        />
+        <div className="flex flex-col">
+          <Link
+            href={`/reporters/${item.id}`}
+            className="font-semibold hover:underline"
+          >
+            {item.username ?? item.email}
+          </Link>
+          <p className="text-xs text-gray-500">{item.email}</p>
+        </div>
+      </div>
+    ),
+  },
+  {
+    header: "Organization",
+    accessor: "organization.name",
+    className: "hidden md:table-cell",
+  },
+  {
+    header: "Articles",
+    accessor: "_count.articles",
+    className: "hidden md:table-cell",
+  },
+  {
+    header: "Followers",
+    accessor: "_count.followers",
+    className: "hidden lg:table-cell",
+  },
+];
+
+
 
   // 5) Render each row
   const renderRow = (item: ReporterListItem) => (
@@ -86,7 +129,7 @@ export default async function ReportersPage({
       <td className="hidden lg:table-cell">{item._count.followers}</td>
     </tr>
   );
-
+  console.log("Data fetched:", data);
   return (
     <div className="bg-white p-4 rounded-md flex-1 m-4 mt-0">
       {/* Top bar */}
@@ -94,12 +137,11 @@ export default async function ReportersPage({
         <h1 className="text-lg font-semibold">All Reporters</h1>
         <div className="flex items-center gap-4">
           <TableSearch placeholder="Search reporters..." />
-          {role === "ADMIN" && <FormContainer type="create" />}
         </div>
       </div>
 
       {/* Table */}
-      <Table columns={columns} data={data as any[]} />
+      <Table columns={columns} renderRow={renderRow} data={data as ReporterListItem[]} />
 
       {/* Pagination */}
       <Pagination page={p} count={count} />
