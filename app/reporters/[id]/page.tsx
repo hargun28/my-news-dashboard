@@ -1,40 +1,3 @@
-// import { getReporterById, getArticlesByReporter } from "@/lib/reporters";
-// import ReporterStats from "@/components/reporters/ReporterStats";
-// import { ArticleList } from "@/components/articles/ArticleList";
-
-// interface Props {
-//   params: { id: string };
-//   searchParams: { page?: string };
-// }
-
-// export default async function ReporterPage({ params, searchParams }: Props) {
-//   const page = parseInt(searchParams.page || "1", 10);
-//   const take = 10;
-//   const reporter = await getReporterById(params.id);
-//   if (!reporter) return <div>Reporter not found.</div>;
-//   const articles = await getArticlesByReporter(params.id, (page - 1) * take, take);
-
-//   return (
-//     <div className="space-y-8">
-//       <ReporterStats reporter={reporter} />
-//       <ArticleList articles={articles} emptyMessage="No articles yet." />
-//       <div className="flex gap-4">
-//         {page > 1 && (
-//           <a href={`?page=${page - 1}`} className="underline text-sm">
-//             Previous
-//           </a>
-//         )}
-//         {articles.length === take && (
-//           <a href={`?page=${page + 1}`} className="underline text-sm">
-//             Next
-//           </a>
-//         )}
-//       </div>
-//     </div>
-//   );
-// }
-
-// app/reporters/[id]/page.tsx
 import { notFound } from "next/navigation";
 import prisma from "@/lib/prisma";
 import { auth } from "@clerk/nextjs/server";
@@ -46,6 +9,7 @@ import TableSearch from "@///components/TableSearch";
 import Pagination from "@//components/Pagination";
 import { NewsArticle, User, Organization } from "@prisma/client";
 import { ITEM_PER_PAGE } from "../../../lib/settings";
+import { getDbUserAndOrg } from "@/lib/get-db-user";
 
 interface Props {
   params: { id: string };
@@ -57,8 +21,9 @@ export default async function SingleReporterPage({
   searchParams = {},
 }: Props) {
   // 1) Auth & role
-  const { sessionClaims } = await auth();
-  const role = (sessionClaims?.metadata as { role?: string })?.role;
+  const viewer = await getDbUserAndOrg();
+  const viewerOrg = viewer?.organizationId;
+
 
   // 2) Load reporter + counts
   const reporter = await prisma.user.findUnique({
@@ -66,9 +31,15 @@ export default async function SingleReporterPage({
     include: {
       organization: { select: { id: true, name: true } },
       _count: { select: { followers: true, articles: true } },
+      phone: true,
+      internalEmail: true,
     },
   });
   if (!reporter) return notFound();
+
+  const canSeePrivate =
+    viewerOrg && viewerOrg === reporter.organizationId;
+
 
   // 3) Pagination & fetch articles
   const page = parseInt(searchParams.page ?? "1", 10);
@@ -89,7 +60,6 @@ export default async function SingleReporterPage({
     { header: "Title", accessor: "title" },
     { header: "Published", accessor: "publishedAt", className: "hidden md:table-cell" },
     { header: "Views", accessor: "views", className: "hidden lg:table-cell" },
-    ...(role === "ADMIN" ? [{ header: "Actions", accessor: "action" }] : []),
   ];
 
   const renderRow = (item: NewsArticle) => (
@@ -103,11 +73,6 @@ export default async function SingleReporterPage({
         {new Intl.DateTimeFormat("en-GB").format(item.createdAt)}
       </td>
       <td className="hidden lg:table-cell">{item.views}</td>
-      {role === "ADMIN" && (
-        <td className="p-4">
-          <FormContainer type="delete" id={item.id} />
-        </td>
-      )}
     </tr>
   );
 
@@ -126,6 +91,20 @@ export default async function SingleReporterPage({
           <div>
             <h1 className="text-2xl font-semibold">{reporter.username ?? reporter.email}</h1>
             <p className="text-sm text-gray-500">{reporter.email}</p>
+            {canSeePrivate && (
+             <>
+               {reporter.phone && (
+                 <p className="text-sm text-gray-700">
+                   📞 {reporter.phone}
+                 </p>
+                )}
+               {reporter.internalEmail && (
+                 <p className="text-sm text-gray-700">
+                   ✉️ {reporter.internalEmail}
+                 </p>
+               )}
+             </>
+           )}
             <p className="mt-2 text-xs text-gray-600">
               Organization: {reporter.organization?.name ?? "Independent"}
             </p>
