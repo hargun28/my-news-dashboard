@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 import { NAV_LINKS } from "@/lib/data";
+import { userInfo } from "os";
 
 
 export function Header() {

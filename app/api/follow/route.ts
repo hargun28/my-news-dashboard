@@ -1,12 +1,12 @@
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
-import { getDbUserId } from "@/lib/get-db-user";
+import { getDbUserAndOrg } from "@/lib/get-db-user";
 
 type Body = { reporterId?: string };
 
 export async function POST(req: Request) {
-  const dbUserId = await getDbUserId();
-  if (!dbUserId) return new NextResponse("Unauthorized", { status: 401 });
+  const viewer = await getDbUserAndOrg();
+  const dbUserId = viewer?.id;  if (!dbUserId) return new NextResponse("Unauthorized", { status: 401 });
 
   const { reporterId }: Body = await req.json().catch(() => ({}));
   if (!reporterId) return new NextResponse("Missing reporterId", { status: 400 });
@@ -22,8 +22,8 @@ export async function POST(req: Request) {
 }
 
 export async function DELETE(req: Request) {
-  const dbUserId = await getDbUserId();
-  if (!dbUserId) return new NextResponse("Unauthorized", { status: 401 });
+  const viewer = await getDbUserAndOrg();
+  const dbUserId = viewer?.id;  if (!dbUserId) return new NextResponse("Unauthorized", { status: 401 });
 
   const { reporterId }: Body = await req.json().catch(() => ({}));
   if (!reporterId) return new NextResponse("Missing reporterId", { status: 400 });

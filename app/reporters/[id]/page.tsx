@@ -7,19 +7,19 @@ import FormContainer from "@/components//FormContainer";
 import Table from "@//components/Table";
 import TableSearch from "@///components/TableSearch";
 import Pagination from "@//components/Pagination";
-import { NewsArticle, User, Organization } from "@prisma/client";
+import { NewsArticle } from "@prisma/client";
 import { ITEM_PER_PAGE } from "../../../lib/settings";
 import { getDbUserAndOrg } from "@/lib/get-db-user";
+import type { ReporterStats } from "@/lib/reporters";
 
 interface Props {
   params: { id: string };
   searchParams?: { [key: string]: string | undefined };
 }
 
-export default async function SingleReporterPage({
-  params,
-  searchParams = {},
-}: Props) {
+export default async function SingleReporterPage(props: Props) {
+  const { params, searchParams = {} } = await props;
+
   // 1) Auth & role
   const viewer = await getDbUserAndOrg();
   const viewerOrg = viewer?.organizationId;
@@ -31,10 +31,8 @@ export default async function SingleReporterPage({
     include: {
       organization: { select: { id: true, name: true } },
       _count: { select: { followers: true, articles: true } },
-      phone: true,
-      internalEmail: true,
     },
-  });
+  }) as ReporterStats | null;
   if (!reporter) return notFound();
 
   const canSeePrivate =

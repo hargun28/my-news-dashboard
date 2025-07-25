@@ -47,9 +47,7 @@ export async function getReporterById(id: string): Promise<ReporterStats | null>
           followers: true, // users who follow ME
           articles: true,
         },
-      },
-      phone: true,
-      internalEmail: true,
+      }
     },
   }) as Promise<ReporterStats | null>;
 }
