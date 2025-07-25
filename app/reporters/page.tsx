@@ -89,46 +89,27 @@ const columns = [
   },
   {
     header: "Organization",
-    accessor: "organization.name",
     className: "hidden md:table-cell",
+    render: (item: ReporterListItem) => item.organization?.name ?? "Independent",
   },
   {
     header: "Articles",
-    accessor: "_count.articles",
     className: "hidden md:table-cell",
+    render: (item: ReporterListItem) => item._count.articles,
+
   },
   {
     header: "Followers",
-    accessor: "_count.followers",
     className: "hidden lg:table-cell",
+    render: (item: ReporterListItem) => item._count.followers,
+
   },
 ];
 
 
 
   // 5) Render each row
-  const renderRow = (item: ReporterListItem) => (
-    <tr key={item.id} className="border-b even:bg-slate-50 text-sm hover:bg-gray-100">
-      <td className="flex items-center gap-4 p-4">
-        <Image
-          src={(item as any).avatarUrl || "/noAvatar.png"}
-          alt=""
-          width={40}
-          height={40}
-          className="w-10 h-10 rounded-full object-cover"
-        />
-        <div className="flex flex-col">
-          <Link href={`/reporters/${item.id}`} className="font-semibold hover:underline">
-            {item.username ?? item.email}
-          </Link>
-          <p className="text-xs text-gray-500">{item.email}</p>
-        </div>
-      </td>
-      <td className="hidden md:table-cell">{item.organization?.name ?? "Independent"}</td>
-      <td className="hidden md:table-cell">{item._count.articles}</td>
-      <td className="hidden lg:table-cell">{item._count.followers}</td>
-    </tr>
-  );
+
   console.log("Data fetched:", data);
   return (
     <div className="bg-white p-4 rounded-md flex-1 m-4 mt-0">
@@ -141,7 +122,7 @@ const columns = [
       </div>
 
       {/* Table */}
-      <Table columns={columns} renderRow={renderRow} data={data as ReporterListItem[]} />
+      <Table columns={columns} data={data as ReporterListItem[]} />
 
       {/* Pagination */}
       <Pagination page={p} count={count} />

@@ -2,35 +2,61 @@
 "use client";
 import { useState, useEffect } from "react";
 import { useDebounce } from "@/hooks/use-debounce";
-import ReporterCard from "../../app/reporters/ReporterCard";
+import Link from "next/link";
+
+interface ReporterSearchResult {
+  id: string;
+  username?: string;
+  email?: string;
+  organization?: { name: string };
+}
 
 export default function ReporterSearchBar() {
   const [query, setQuery] = useState("");
   const debounced = useDebounce(query, 400);
-  const [results, setResults] = useState<any[]>([]);
+  const [results, setResults] = useState<ReporterSearchResult[]>([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (!debounced) { setResults([]); return; }
+    if (!debounced) {
+      setResults([]);
+      return;
+    }
     setLoading(true);
     fetch(`/api/reporters/search?query=${encodeURIComponent(debounced)}`)
-      .then(r => r.json())
-      .then(setResults)
+      .then((res) => res.json())
+      .then((data: ReporterSearchResult[]) => setResults(data))
       .finally(() => setLoading(false));
   }, [debounced]);
 
   return (
     <div className="space-y-4">
       <input
+        type="text"
         value={query}
-        onChange={e => setQuery(e.target.value)}
-        placeholder="Search reporters to follow..."
+        onChange={(e) => setQuery(e.target.value)}
+        placeholder="Search reporters by name or organization..."
         className="w-full rounded border px-3 py-2 text-sm"
       />
       {loading && <p className="text-sm text-gray-500">Searching…</p>}
-      <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3">
-        {results.map(rep => <ReporterCard key={rep.id} reporter={rep} />)}
-      </div>
+      <ul className="divide-y">
+        {results.map((rep) => (
+          <li key={rep.id} className="py-2">
+            <Link
+              href={`/reporters/${rep.id}`}
+              className="flex justify-between items-center hover:bg-gray-50 p-2 rounded"
+            >
+              <span className="font-medium">{rep.username ?? rep.email}</span>
+              <span className="text-xs text-gray-500">
+                {rep.organization?.name ?? "Independent"}
+              </span>
+            </Link>
+          </li>
+        ))}
+        {!loading && debounced && results.length === 0 && (
+          <li className="text-sm text-gray-500">No reporters found.</li>
+        )}
+      </ul>
     </div>
   );
 }
