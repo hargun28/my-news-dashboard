@@ -10,7 +10,7 @@ import { userInfo } from "os";
 export function Header() {
   const pathname = usePathname();
   return (
-    <header className="border-b bg-white/70 backdrop-blur-sm">
+    <header className="border-b border-slate-700 bg-slate-800/70 backdrop-blur-sm text-slate-100">
       <div className="mx-auto flex h-14 items-center justify-between px-4">
         <Link href="/" className="font-semibold">NewsDash</Link>
         <nav className="flex space-x-6 text-sm">
@@ -20,7 +20,7 @@ export function Header() {
               <Link
                 key={t.href}
                 href={t.href}
-                className={active ? "border-b-2 border-gray-900 pb-1 font-medium" : "text-gray-500"}
+                className={active ? "border-b-2 border-indigo-400 pb-1 font-medium" : "text-slate-400"}
               >
                 {t.label}
               </Link>

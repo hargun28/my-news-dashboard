@@ -26,8 +26,8 @@ export default function Pagination({ page, count }: PaginationProps) {
             className={
               `px-3 py-1 rounded text-sm ` +
               (p === page
-                ? "bg-gray-800 text-white"
-                : "bg-white text-gray-700 border")
+                ? "bg-slate-700 text-white"
+                : "bg-slate-800 text-slate-200 border border-slate-700")
             }
           >
             {p}

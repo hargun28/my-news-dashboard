@@ -3,7 +3,7 @@ import { Avatar } from "@/components/base/avatar/avatar";
 
 export default function ReporterStats({ reporter }: { reporter: any }) {
   return (
-        <section className="rounded border bg-white p-6 space-y-4">
+        <section className="rounded border border-slate-700 bg-slate-800 p-6 space-y-4 text-slate-100">
       <div className="flex items-center gap-3">
         <Avatar initials={reporter.name?.[0] ?? "R"} size="lg" />
         <div>

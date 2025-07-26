@@ -18,8 +18,8 @@ interface TableProps<T> {
 export default function Table<T>({ columns, data }: TableProps<T>) {
   return (
     <div className="overflow-x-auto">
-      <table className="min-w-full divide-y divide-gray-200">
-        <thead className="bg-gray-50">
+      <table className="min-w-full divide-y divide-slate-700">
+        <thead className="bg-slate-800 text-slate-100">
           <tr>
             {columns.map((col, idx) => (
               <th
@@ -34,9 +34,9 @@ export default function Table<T>({ columns, data }: TableProps<T>) {
             ))}
           </tr>
         </thead>
-        <tbody className="bg-white divide-y divide-gray-200">
+        <tbody className="bg-slate-800 divide-y divide-slate-700 text-slate-100">
           {data.map((item, rowIdx) => (
-            <tr key={rowIdx} className="hover:bg-gray-50">
+            <tr key={rowIdx} className="hover:bg-slate-700">
               {columns.map((col, colIdx) => (
                 <td
                   key={colIdx}

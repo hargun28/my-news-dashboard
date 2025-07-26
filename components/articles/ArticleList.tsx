@@ -7,7 +7,7 @@ export function ArticleList({
   return (
     <ul className="space-y-4">
       {articles.map(a => (
-        <li key={a.id} className="rounded border bg-white p-4">
+        <li key={a.id} className="rounded border border-slate-700 bg-slate-800 p-4 text-slate-100">
           <h3 className="font-medium">{a.title}</h3>
           <p className="text-sm text-gray-600">{a.summary}</p>
         </li>

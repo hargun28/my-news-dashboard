@@ -22,7 +22,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
           <RouteProvider>
             <ThemeProvider>
-              <header className="flex justify-end items-center p-4 gap-4 h-16 bg-white shadow ">
+              <header className="flex justify-end items-center p-4 gap-4 h-16 bg-slate-800 text-white shadow">
                 <SignedOut>
                   <SignInButton />
                   <SignUpButton>

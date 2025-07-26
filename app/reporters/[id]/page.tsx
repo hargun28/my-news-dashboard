@@ -109,11 +109,11 @@ export default async function SingleReporterPage(props: Props) {
           </div>
         </div>
         <div className="flex-1 grid grid-cols-2 gap-4">
-          <div className="bg-white p-4 rounded-md text-center">
+          <div className="bg-slate-700 p-4 rounded-md text-center">
             <p className="text-gray-500 text-xs">Articles</p>
             <p className="text-xl font-medium">{reporter._count.articles}</p>
           </div>
-          <div className="bg-white p-4 rounded-md text-center">
+          <div className="bg-slate-700 p-4 rounded-md text-center">
             <p className="text-gray-500 text-xs">Followers</p>
             <p className="text-xl font-medium">{reporter._count.followers}</p>
           </div>

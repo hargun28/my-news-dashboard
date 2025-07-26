@@ -15,7 +15,7 @@ export default function UploadNewsForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="bg-white p-4 rounded-lg shadow flex flex-col gap-4">
+    <form onSubmit={handleSubmit} className="bg-slate-800 p-4 rounded-lg shadow flex flex-col gap-4 text-slate-100">
       <Input
         placeholder="Title"
         value={title}

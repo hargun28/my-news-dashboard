@@ -45,7 +45,7 @@ export default function FormContainer({ type, id }: FormContainerProps) {
           <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-40">
             <form
               onSubmit={handleCreate}
-              className="bg-white p-6 rounded space-y-4 w-full max-w-md"
+              className="bg-slate-800 text-slate-100 p-6 rounded space-y-4 w-full max-w-md"
             >
               <h2 className="text-lg font-semibold">Create Article</h2>
               <input

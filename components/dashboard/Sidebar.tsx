@@ -8,7 +8,7 @@ import { useUserRole } from "../../hooks/use-user-role";
 export default function Sidebar() {
   const role = useUserRole();
   return (
-    <aside className="w-64 h-screen bg-white border-r p-4 flex flex-col gap-6">
+    <aside className="w-64 h-screen bg-slate-800 text-slate-100 border-r border-slate-700 p-4 flex flex-col gap-6">
       <div className="flex items-center gap-3">
         <Avatar initials="U" size="lg" />
         <div>

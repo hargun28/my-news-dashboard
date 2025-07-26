@@ -44,7 +44,7 @@ export default function ReporterSearchBar() {
           <li key={rep.id} className="py-2">
             <Link
               href={`/reporters/${rep.id}`}
-              className="flex justify-between items-center hover:bg-gray-50 p-2 rounded"
+              className="flex justify-between items-center hover:bg-slate-700 p-2 rounded text-slate-100"
             >
               <span className="font-medium">{rep.username ?? rep.email}</span>
               <span className="text-xs text-gray-500">
