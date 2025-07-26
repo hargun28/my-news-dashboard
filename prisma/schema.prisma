@@ -20,7 +20,7 @@ model Organization {
 
 model User {
   id              String   @id @default(cuid())
-  clerkId         String  @unique
+  clerkId         String?   @unique
   username        String   @unique
   email           String   @unique
   role            Role     @default(READER)
@@ -47,6 +47,7 @@ model NewsArticle {
   description    String
   content        String?
   imageUrl       String?
+  category       String?
   views          Int      @default(0)
   createdAt      DateTime @default(now())
 

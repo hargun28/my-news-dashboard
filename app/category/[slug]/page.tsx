@@ -8,8 +8,8 @@ export default async function CategoryPage({ params }: { params: { slug: string 
   const articles = await fetchNewsFor(slug);
 
   return (
-    <main className="p-6 space-y-6">
-      <h1 className="text-2xl font-bold capitalize">{slug} News</h1>
+    <main className="p-6 space-y-6 bg-blue-100">
+      <h1 className="text-2xl font-bold capitalize text-black">{slug} News</h1>
 
       <div className="grid gap-6 md:grid-cols-2">
         {articles.map((a) => (
@@ -18,7 +18,7 @@ export default async function CategoryPage({ params }: { params: { slug: string 
             href={a.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="group block rounded-lg border bg-surface p-4 hover:shadow transition"
+            className="group block rounded-lg border border-gray-200 bg-white p-4 shadow-sm hover:shadow-md transition text-black"
           >
             {a.urlToImage && (
               // eslint-disable-next-line @next/next/no-img-element
@@ -30,7 +30,7 @@ export default async function CategoryPage({ params }: { params: { slug: string 
             )}
             <h3 className="text-lg font-semibold group-hover:underline">{a.title}</h3>
             {a.description && (
-              <p className="mt-1 text-sm text-fg-secondary line-clamp-3 bg-[#001f3f] text-white">{a.description}</p>
+              <p className="mt-1 text-sm line-clamp-3 text-gray-700 dark:text-black">{a.description}</p>
             )}
             <span className="mt-2 block text-xs text-fg-quaternary">
               {new Date(a.publishedAt).toLocaleString()} — {a.source?.name ?? "Unknown"}

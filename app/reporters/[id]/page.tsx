@@ -1,16 +1,13 @@
 import { notFound } from "next/navigation";
 import prisma from "@/lib/prisma";
-import { auth } from "@clerk/nextjs/server";
 import Image from "next/image";
 import Link from "next/link";
-import FormContainer from "@/components//FormContainer";
-import Table from "@//components/Table";
-import TableSearch from "@///components/TableSearch";
-import Pagination from "@//components/Pagination";
+import Pagination from "@/components/Pagination";
 import { NewsArticle } from "@prisma/client";
 import { ITEM_PER_PAGE } from "../../../lib/settings";
 import { getDbUserAndOrg } from "@/lib/get-db-user";
 import type { ReporterStats } from "@/lib/reporters";
+import TableSearch from "@/components/TableSearch";
 
 interface Props {
   params: { id: string };
@@ -54,26 +51,7 @@ export default async function SingleReporterPage(props: Props) {
   ]);
 
   // 4) Columns + row renderer
-  const columns = [
-    { header: "Title", accessor: "title" },
-    { header: "Published", accessor: "publishedAt", className: "hidden md:table-cell" },
-    { header: "Views", accessor: "views", className: "hidden lg:table-cell" },
-  ];
-
-  const renderRow = (item: NewsArticle) => (
-    <tr key={item.id} className="border-b even:bg-slate-50 hover:bg-gray-100 text-sm">
-      <td className="p-4">
-        <Link href={`/news/${item.id}`} className="font-medium hover:underline">
-          {item.title}
-        </Link>
-      </td>
-      <td className="hidden md:table-cell">
-        {new Intl.DateTimeFormat("en-GB").format(item.createdAt)}
-      </td>
-      <td className="hidden lg:table-cell">{item.views}</td>
-    </tr>
-  );
-
+  
   return (
     <div className="flex flex-col gap-6 p-4 m-4 bg-white rounded-md">
       {/* Top: Reporter info */}
@@ -124,8 +102,27 @@ export default async function SingleReporterPage(props: Props) {
       <div className="space-y-4">
         <div className="flex items-center justify-between">
           <h2 className="text-lg font-semibold">Articles by {reporter.username}</h2>
-          <TableSearch placeholder="Filter articles…" />
         </div>
+        <div className="space-y-4">
+          {articles.map((a) => (
+            <div key={a.id} className="flex gap-4 border rounded-md p-4 bg-slate-50">
+              {a.imageUrl && (
+                <Image
+                  src={a.imageUrl}
+                  alt=""
+                  width={120}
+                  height={80}
+                  className="object-cover rounded w-32 h-20"
+                />
+              )}
+              <div>
+                <Link href={`/news/${a.id}`} className="font-medium hover:underline">
+                  {a.title}
+                </Link>
+                <p className="text-xs text-gray-500">{a.category ?? ""}</p>
+              </div>
+            </div>
+          ))}        </div>
         <Pagination page={page} count={count} />
       </div>
     </div>

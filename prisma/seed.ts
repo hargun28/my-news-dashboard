@@ -54,12 +54,29 @@ async function main() {
   const reader4 = await makeUser({ username: "reader_emma", role: Role.READER });
   const reader5 = await makeUser({ username: "reader_nick", role: Role.READER });
   // 3) News Articles (attach org same as author)
-  async function makeArticle(authorId: string, orgId: string, i: number) {
-    return prisma.newsArticle.create({
+ async function makeArticle({
+    authorId,
+    orgId,
+    title,
+    description,
+    category,
+    imageUrl,
+  }: {
+    authorId: string;
+    orgId: string;
+    title: string;
+    description: string;
+    category: string;
+    imageUrl?: string;
+  }) {
+      return prisma.newsArticle.create({
       data: {
-        title: `Sample Article ${i}`,
-        description: `This is the body of sample article ${i}.`,
+        title,
+        description,
+        content: description,
         views: Math.floor(Math.random() * 500), // random 0-499
+        category,
+        imageUrl,
         authorId,
         organizationId: orgId,
       },
@@ -67,12 +84,54 @@ async function main() {
   }
 
   await Promise.all([
-    makeArticle(reporter1.id, orgA.id, 1),
-    makeArticle(reporter1.id, orgA.id, 2),
-    makeArticle(reporter2.id, orgB.id, 3),
-    makeArticle(reporter2.id, orgB.id, 4),
-    makeArticle(reporter3.id, orgA.id, 5),
-    makeArticle(reporter4.id, orgA.id, 6),
+    makeArticle({
+      authorId: reporter1.id,
+      orgId: orgA.id,
+      title: "Tech Trends Shaping 2025",
+      description: "A quick look at upcoming tech innovations for next year.",
+      category: "technology",
+      imageUrl: "https://source.unsplash.com/800x600/?technology",
+    }),
+    makeArticle({
+      authorId: reporter1.id,
+      orgId: orgA.id,
+      title: "Local Team Wins Championship",
+      description: "Exciting final match leads to a stunning victory.",
+      category: "sports",
+      imageUrl: "https://source.unsplash.com/800x600/?sports",
+    }),
+    makeArticle({
+      authorId: reporter2.id,
+      orgId: orgB.id,
+      title: "Market Update: Stocks Rally",
+      description: "Investors show renewed optimism across the board.",
+      category: "business",
+      imageUrl: "https://source.unsplash.com/800x600/?business",
+    }),
+    makeArticle({
+      authorId: reporter2.id,
+      orgId: orgB.id,
+      title: "Election Season Heats Up",
+      description: "Parties gear up for a close race this fall.",
+      category: "politics",
+      imageUrl: "https://source.unsplash.com/800x600/?politics",
+    }),
+    makeArticle({
+      authorId: reporter3.id,
+      orgId: orgA.id,
+      title: "New Gadget Review Roundup",
+      description: "We test the latest devices so you don't have to.",
+      category: "technology",
+      imageUrl: "https://source.unsplash.com/800x600/?gadget",
+    }),
+    makeArticle({
+      authorId: reporter4.id,
+      orgId: orgA.id,
+      title: "High School Championship Preview",
+      description: "Teams prepare for the big showdown.",
+      category: "sports",
+      imageUrl: "https://source.unsplash.com/800x600/?stadium",
+    }),
   ]);
 
   // 4) Follow relationships
