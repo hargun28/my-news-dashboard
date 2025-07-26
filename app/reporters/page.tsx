@@ -25,7 +25,7 @@ export default async function ReportersPage({
   const role = (sessionClaims?.metadata as { role?: string })?.role;
 
   // 2) Pagination & search filter
-  const { page, search, ...rest } = searchParams;
+  const { page, search, ...rest } = await searchParams;
   const p = page ? parseInt(page, 10) : 1;
 
   const where: Prisma.UserWhereInput = {
