@@ -3,7 +3,7 @@ import prisma from "@/lib/prisma";
 import Image from "next/image";
 import Link from "next/link";
 import Pagination from "@/components/Pagination";
-import { NewsArticle } from "@prisma/client";
+import { NewsArticle, Prisma } from "@prisma/client";
 import { ITEM_PER_PAGE } from "../../../lib/settings";
 import { getDbUserAndOrg } from "@/lib/get-db-user";
 import type { ReporterStats } from "@/lib/reporters";
@@ -38,16 +38,23 @@ export default async function SingleReporterPage(props: Props) {
 
   // 3) Pagination & fetch articles
   const page = parseInt(searchParams.page ?? "1", 10);
+  const search = searchParams.search ?? "";
   const skip = ITEM_PER_PAGE * (page - 1);
+  const where: Prisma.NewsArticleWhereInput = {
+    authorId: params.id,
+    ...(search
+      ? { title: { contains: search, mode: "insensitive" } }
+      : {}),
+  };
 
   const [articles, count] = await prisma.$transaction([
     prisma.newsArticle.findMany({
-      where: { authorId: params.id },
+      where,
       skip,
       take: ITEM_PER_PAGE,
       orderBy: { createdAt: "desc" },
     }),
-    prisma.newsArticle.count({ where: { authorId: params.id } }),
+    prisma.newsArticle.count({ where }),
   ]);
 
   // 4) Columns + row renderer

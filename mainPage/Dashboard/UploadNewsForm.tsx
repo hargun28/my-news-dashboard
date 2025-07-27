@@ -11,17 +11,24 @@ export default function UploadNewsForm() {
   const [title, setTitle] = useState("")
   const [content, setContent] = useState("")
   const [category, setCategory] = useState("")
-  const [imageUrl, setImageUrl] = useState("")
+  const [imageFile, setImageFile] = useState<File | null>(null)
   const [error, setError] = useState("")
   const router = useRouter()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setError("")
+    const formData = new FormData()
+    formData.append("title", title)
+    formData.append("description", content)
+    formData.append("category", category)
+    if (imageFile) {
+      formData.append("image", imageFile)
+    }
+
     const res = await fetch("/api/articles", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ title, description: content, category, imageUrl }),
+      body: formData,
     })
     if (!res.ok) {
       setError("Failed to post article")
@@ -29,7 +36,7 @@ export default function UploadNewsForm() {
       setTitle("")
       setContent("")
       setCategory("")
-      setImageUrl("")
+      setImageFile(null)
       router.refresh()
     }  }
 
@@ -57,10 +64,11 @@ export default function UploadNewsForm() {
           </option>
         ))}
       </select>
-      <Input
-        placeholder="Image URL"
-        value={imageUrl}
-        onChange={setImageUrl}
+      <input
+        type="file"
+        accept="image/*"
+        onChange={(e) => setImageFile(e.target.files?.[0] || null)}
+        className="text-sm text-slate-100"
       />
       {error && <p className="text-red-400 text-sm">{error}</p>}
       <Button type="submit">Post News</Button>
