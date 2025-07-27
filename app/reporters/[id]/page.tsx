@@ -15,7 +15,7 @@ interface Props {
 }
 
 export default async function SingleReporterPage(props: Props) {
-  const { params, searchParams = {} } = await props;
+  const { params, searchParams = {} } = props;
 
   // 1) Auth & role
   const viewer = await getDbUserAndOrg();
@@ -65,7 +65,7 @@ export default async function SingleReporterPage(props: Props) {
             className="rounded-full"
           />
           <div>
-            <h1 className="text-2xl font-semibold">{reporter.username ?? reporter.email}</h1>
+            <h1 className="text-2xl font-semibold text-black">{reporter.username ?? reporter.email}</h1>
             <p className="text-sm text-gray-500">{reporter.email}</p>
             {canSeePrivate && (
              <>
@@ -98,14 +98,18 @@ export default async function SingleReporterPage(props: Props) {
         </div>
       </div>
 
-      {/* Bottom: Articles table */}
-      <div className="space-y-4">
+      <div className="bg-blue-100 text-black p-6 rounded-md space-y-4">
         <div className="flex items-center justify-between">
           <h2 className="text-lg font-semibold">Articles by {reporter.username}</h2>
+          <TableSearch placeholder="Search articles..." />
         </div>
+
         <div className="space-y-4">
           {articles.map((a) => (
-            <div key={a.id} className="flex gap-4 border rounded-md p-4 bg-slate-50">
+            <div
+              key={a.id}
+              className="flex gap-4 border rounded-md p-4 bg-white text-black"
+            >
               {a.imageUrl && (
                 <Image
                   src={a.imageUrl}
@@ -116,14 +120,19 @@ export default async function SingleReporterPage(props: Props) {
                 />
               )}
               <div>
-                <Link href={`/news/${a.id}`} className="font-medium hover:underline">
+                <Link
+                  href={`/news/${a.id}`}
+                  className="font-medium hover:underline text-black"
+                >
                   {a.title}
-                </Link>
-                <p className="text-xs text-gray-500">{a.category ?? ""}</p>
+               </Link>
+                <p className="text-xs text-gray-700">{a.category ?? ""}</p>
               </div>
             </div>
-          ))}        </div>
-        <Pagination page={page} count={count} />
+          ))}
+        </div>
+       <Pagination page={page} count={count} />
+
       </div>
     </div>
   );

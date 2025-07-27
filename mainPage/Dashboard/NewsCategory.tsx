@@ -26,10 +26,10 @@ export default function NewsCategory() {
             <Image
               src={img}
               alt={name}
+              priority
               fill
               className="object-cover transition-transform duration-300 group-hover:scale-105"
               sizes="(max-width: 1024px) 50vw, 25vw"
-              priority={false}
             />
             {/* Overlay */}
             <div className="absolute inset-0 bg-black/40 group-hover:bg-black/50 transition-colors" />
