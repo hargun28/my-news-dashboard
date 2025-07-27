@@ -15,12 +15,12 @@ export default function NewsCategory() {
   return (
     <section aria-labelledby="category-heading" className="mt-6">
       <h2 id="category-heading" className="sr-only">News categories</h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {categories.map(({ name, slug, img }) => (
           <Link
             key={slug}
             href={`/category/${slug}`}
-            className="group relative aspect-[4/3] overflow-hidden rounded-lg shadow-sm ring-1 ring-border hover:shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-primary transition"
+            className="group relative aspect-video overflow-hidden rounded-lg shadow-sm ring-1 ring-border hover:shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-primary transition"
             aria-label={`Go to ${name} news`}
           >
             <Image

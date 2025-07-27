@@ -90,7 +90,7 @@ async function main() {
       title: "Tech Trends Shaping 2025",
       description: "A quick look at upcoming tech innovations for next year.",
       category: "technology",
-      imageUrl: "https://source.unsplash.com/800x600/?technology",
+      imageUrl: "/articles/download.jpeg",
     }),
     makeArticle({
       authorId: reporter1.id,
@@ -98,7 +98,7 @@ async function main() {
       title: "Local Team Wins Championship",
       description: "Exciting final match leads to a stunning victory.",
       category: "sports",
-      imageUrl: "https://source.unsplash.com/800x600/?sports",
+      imageUrl: "/articles/localteam.png",
     }),
     makeArticle({
       authorId: reporter2.id,
@@ -106,7 +106,7 @@ async function main() {
       title: "Market Update: Stocks Rally",
       description: "Investors show renewed optimism across the board.",
       category: "business",
-      imageUrl: "https://source.unsplash.com/800x600/?business",
+      imageUrl: "/noAvatar.png",
     }),
     makeArticle({
       authorId: reporter2.id,
@@ -114,7 +114,7 @@ async function main() {
       title: "Election Season Heats Up",
       description: "Parties gear up for a close race this fall.",
       category: "politics",
-      imageUrl: "https://source.unsplash.com/800x600/?politics",
+      imageUrl: "/noAvatar.png",
     }),
     makeArticle({
       authorId: reporter3.id,
@@ -122,7 +122,7 @@ async function main() {
       title: "New Gadget Review Roundup",
       description: "We test the latest devices so you don't have to.",
       category: "technology",
-      imageUrl: "https://source.unsplash.com/800x600/?gadget",
+      imageUrl: "/noAvatar.png",
     }),
     makeArticle({
       authorId: reporter4.id,
@@ -130,7 +130,7 @@ async function main() {
       title: "High School Championship Preview",
       description: "Teams prepare for the big showdown.",
       category: "sports",
-      imageUrl: "https://source.unsplash.com/800x600/?stadium",
+      imageUrl: "/noAvatar.png",
     }),
   ]);
 
